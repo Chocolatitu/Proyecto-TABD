@@ -3,8 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="description" content="Es una página web dedicada a la gestion de datos de un Hospital">
-    <meta name="keywords" content="Hospitad , Salud, Gestion, doctores, pacientes, enfermedades">
-    <meta name="author" content="Blanca Mª Sánchez Martínez & Manuel Martín Andrade">
+    <meta name="author" content="Paula Venegas Roldán & Marco José Miranda Bahamonde">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <title>Hospital</title>
@@ -113,7 +112,6 @@
                 <img src="../Logo.png" alt = "Logo" class = "Logo">
             </a>
             <p>Hospital</p>
-            <p><a href="mailto:manu.martinandrade@alum.uca.es">manu.martinandrade@alum.uca.es</a></p>
         </div>
     </footer>
 
