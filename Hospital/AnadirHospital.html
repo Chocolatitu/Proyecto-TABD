@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="description" content="Es una página web dedicada a la gestion de datos de un Hospital">
+    <meta name="keywords" content="Hospitad , Salud, Gestion, doctores, pacientes, enfermedades">
+    <meta name="author" content="Blanca Mª Sánchez Martínez & Manuel Martín Andrade">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Hospital</title>
+
+    <link rel="stylesheet" href="../styles_main.css">
+</head>
+<body>
+    <header>   
+        <div class="Cabezera">
+            <button title = "button" class="Menu_Hamburgesa1">
+                <svg class="svg1" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+                    <path fill-rule="evenodd" d="M2.5 12a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5m0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5m0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5"/>
+                </svg>
+            </button>
+            
+            <h1 class>Hospital</h1>
+            <a href="../Main.html" >
+                <img src="../Logo.png" alt = "Logo" class = "Logo">
+            </a>
+            <h2 class>Añadir Hospital</h2>
+        </div>
+
+        <nav class = "nav1">
+            <ul class = "nav1_ul1">
+                <li class="li"><a href="Hospital.html" class="a">Volver Hospital</a></li>
+                <li class="li"><a href="../Main.html" class="a">Volver al Menu</a></li>
+            </ul>
+        </nav>
+
+    </header>
+
+    <div class="Fondo">
+        <form class = "Formulario" id = "Formulario" method="POST" action="Anadirhospital.php">
+            <!--Nombre-->
+            <div class="Formulario_Grupo" id = "Grupo_Nombre">
+                <label for="nNombre" class = "Formulario_Label">Nombre del hospital</label>
+                <div class = "Formulario_Grupo_Input">
+                    <input type="text" class = "Formulario_Input" name = "nNombre" id = "nNombre" placeholder="Santa María">
+                    <i class="Icono fa-solid fa-times-circle"></i>
+                </div>
+                <p class = "Error">En el nombre solo se pueden introducir letras</p>
+            </div>
+
+            <!--Localidad-->
+            <div class="Formulario_Grupo" id = "Grupo_Localidad">
+                <label for="nLocalidad" class = "Formulario_Label">Localidad del hospital</label>
+                <div class = "Formulario_Grupo_Input">
+                    <input type="text" class = "Formulario_Input" name = "nLocalidad" id = "nLocalidad" placeholder="Cadiz">
+                    <i class="Icono fa-solid fa-circle-xmark"></i>
+                </div>
+                <p class = "Error">Localidad no valida</p>
+            </div>
+
+            <!--Ubicacion-->
+            <div class="Formulario_Grupo" id = "Grupo_Ubicacion">
+                <label for="nUbicacion" class = "Formulario_Label">Ubicacion del hospital</label>
+                <div class = "Formulario_Grupo_Input">
+                    <input type="text" class = "Formulario_Input" name = "nUbicacion" id = "nUbicacion" placeholder="Calle Valdes">
+                    <i class="Icono fa-solid fa-circle-xmark"></i>
+                </div>
+                <p class = "Error">Ubicacion no valida</p>
+            </div>
+
+            <!--Mensaje-->
+            <div class = "Formulario_Mensaje" id = "Formulario_Mensaje">
+                <p><i class="fa-solid fa-triangle-exclamation"></i><b>Error: Por favor rellena el formulario correctamente</b></p>
+            </div>
+
+            <!--Botón-->
+            <div class="Formulario_Grupo_Boton">
+                <button type = "submit" class = "Formulario_Boton">Añadir Hospital</button>
+                <p class = "Exito" id = "Exito">Se ha añadido la hospital correctamente</p>
+            </div>
+        </form>
+    </div>
+
+    <footer>
+        <div class = "Contacto">
+            <a href="../Main.html" >
+                <img src="../Logo.png" alt = "Logo" class = "Logo">
+            </a>
+            <p>Hospital</p>
+            <p><a href="mailto:manu.martinandrade@alum.uca.es">manu.martinandrade@alum.uca.es</a></p>
+        </div>
+    </footer>
+
+</body>
+</html>

@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="description" content="Es una página web dedicada a la gestion de datos de un Hospital">
+    <meta name="author" content="Paula Venegas Roldán & Marco José Miranda Bahamonde">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Hospital</title>
+
+    <link rel="stylesheet" href="../styles_main.css">
+</head>
+<body>
+    <header>   
+        <div class="Cabezera">
+            <button title = "button" class="Menu_Hamburgesa1">
+                <svg class="svg1" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+                    <path fill-rule="evenodd" d="M2.5 12a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5m0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5m0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5"/>
+                </svg>
+            </button>
+            
+            <h1 class>Hospital</h1>
+            <a href="../Main.html" >
+                <img src="../Logo.png" alt = "Logo" class = "Logo">
+            </a>
+            <h2 class>Añadir Departamento</h2>
+        </div>
+
+        <nav class = "nav1">
+            <ul class = "nav1_ul1">
+                <li class="li"><a href="Departamento.html" class="a">Volver Departamento</a></li>
+                <li class="li"><a href="../Main.html" class="a">Volver al Menu</a></li>
+            </ul>
+        </nav>
+
+    </header>
+
+    <div class="Fondo">
+        <form class = "Formulario" id = "Formulario" method="POST" action="AnadirDepartamento.php">
+            <!--Nombre-->
+            <div class="Formulario_Grupo" id="Grupo_nomdpto">
+                <label for="nNombre" class="Formulario_Label">Departamento</label>
+                <div class="Formulario_Grupo_Input">
+                    <select class="Formulario_Select" name="nNombre" id="nNombre">
+                        <option value="cardiologia">Cardiología</option>
+                        <option value="pediatria">Pediatría</option>
+                        <option value="dermatologia">Dermatología</option>
+                        <option value="traumatologia">Traumatología</option>
+                        <option value="oftalmologia">Oftalmología</option>
+                        <option value="estomatologia">Estomatología</option>
+                        <option value="ginecologia">Ginecología</option>
+                        <option value="otorrinolaringologia">Otorrinolaringología</option>
+                        <option value="neurologia">Neurología</option>
+                        <option value="psiquiatria">Psiquiatría</option>
+                    </select>
+                </div>
+                <p class="Error">Selecciona un departamento</p>
+            </div>
+
+            <!--Correo Electrónico-->
+            <div class="Formulario_Grupo" id = "Grupo_desc">
+                <label for="nDescripcion" class = "Formulario_Label">Descripcion</label>
+                <div class = "Formulario_Grupo_Input">
+                    <input type="text" class = "Formulario_Input" name = "nDescripcion" id = "nDescripcion" placeholder="Descripcion">
+                    <i class="Icono fa-solid fa-circle-xmark"></i>
+                </div>
+                <p class = "Error">Datos no validos</p>
+            </div>
+
+            <!--Teléfono-->
+            <div class="Formulario_Grupo" id = "Grupo_planta">
+                <label for="nPlanta" class = "Formulario_Label">Planta</label>
+                <div class = "Formulario_Grupo_Input">
+                    <input type="number" class = "Formulario_Input" name = "nPlanta" id = "nPlanta" placeholder="1">
+                    <i class="Icono fa-solid fa-circle-xmark"></i>
+                </div>
+                <p class = "Error">Solo debe usarse numeros enteros</p>
+            </div>
+
+
+            <!--Mensaje-->
+            <div class = "Formulario_Mensaje" id = "Formulario_Mensaje">
+                <p><i class="fa-solid fa-triangle-exclamation"></i><b>Error: Por favor rellena el formulario correctamente</b></p>
+            </div>
+
+            <!--Botón-->
+            <div class="Formulario_Grupo_Boton">
+                <button type = "submit" class = "Formulario_Boton">Añadir Departamento</button>
+                <p class = "Exito" id = "Exito">Se ha añadido el departamento correctamente</p>
+            </div>
+        </form>
+    </div>
+
+    <footer>
+        <div class = "Contacto">
+            <a href="Main.html" >
+                <img src="/Logo.png" alt = "Logo" class = "Logo">
+            </a>
+            <p>Hospital</p>
+            <p><a href="mailto:manu.martinandrade@alum.uca.es">manu.martinandrade@alum.uca.es</a></p>
+        </div>
+    </footer>
+    
+</body>
+</html>
