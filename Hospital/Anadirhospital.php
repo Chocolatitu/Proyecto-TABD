@@ -43,8 +43,8 @@
         if($_POST)
         {
             // Configurar las variables de conexión
-            $db_user = 'blanca';
-            $db_pass = 'blanca1';
+            $db_user = 'hospital';
+            $db_pass = 'hospital';
             $db_conn_str = '(DESCRIPTION=(ADDRESS_LIST=(ADDRESS=(PROTOCOL=TCP)(HOST=localhost)(PORT=1521)))(CONNECT_DATA=(SERVICE_NAME=XEPDB1)))';
         
             // Establecer la conexión
@@ -58,8 +58,8 @@
             else { 
                 // Preparar la consulta
                 $Nombre = $_POST['nNombre'];
+                $Direccion = $_POST['nDireccion']; 
                 $Localidad = $_POST['nLocalidad'];
-                $Ubicacion = $_POST['nUbicacion']; 
 
                 $plsql = "SELECT IdHospital AS Hospi FROM Hospital WHERE IdHospital = 1";
                 $stmt = oci_parse($conn, $plsql);
@@ -74,7 +74,7 @@
                     // Convertir el array de días en una cadena en el formato requerido por la base de datos
                     try
                     {
-                        $plsql = "BEGIN FuncionesHospital.AnadirHospital('$Nombre','$Localidad', '$Ubicacion'); END;";
+                        $plsql = "BEGIN PaqueteHospital.AnadirHospital('$Nombre', '$Direccion', '$Localidad'); END;";
                         $stmt = oci_parse($conn, $plsql);     
                         // Ejecutar la consulta
                         $flag1 = oci_execute($stmt);
