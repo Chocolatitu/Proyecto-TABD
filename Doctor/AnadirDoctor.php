@@ -43,8 +43,8 @@
         if($_POST)
         {
             // Configurar las variables de conexión
-            $db_user = 'blanca';
-            $db_pass = 'blanca1';
+            $db_user = 'hospital';
+            $db_pass = 'hospital';
             $db_conn_str = '(DESCRIPTION=(ADDRESS_LIST=(ADDRESS=(PROTOCOL=TCP)(HOST=localhost)(PORT=1521)))(CONNECT_DATA=(SERVICE_NAME=XEPDB1)))';
         
             // Establecer la conexión
@@ -58,12 +58,12 @@
             else { 
                 // Preparar la consulta
                 $nNombre = $_POST['nNombre'];
+                $nTelefono = $_POST['nTelefono'];  
                 $nEspecialidad = $_POST['nEspecialidad'];
-                $nDias = isset($_POST['nDias']) ? $_POST['nDias'] : array();
                 $nHoraInicio = $_POST['nHoraInicio'];
                 $nHoraFin = $_POST['nHoraFin'];
-                $nTelefono = $_POST['nTelefono'];  
-                $nNombreDepartamento = $_POST['nNombreDepartamento'];   
+                $nDias = isset($_POST['nDias']) ? $_POST['nDias'] : array();
+                $nIdDepartamento = $_POST['nIdDepartamento'];   
                 
                 if (empty($nDias)) {
                         $resultado = "<div id=\"Resultado\"><p>Error: Dias esta vacio</p></div>";
@@ -73,7 +73,7 @@
                     $diasString = "'" . implode("','", $nDias) . "'";
                     try
                     {
-                        $plsql = "BEGIN FuncionesHospital.AnadirDoctor('$nNombre','$nEspecialidad', TipoDiasSemana($diasString), '$nHoraInicio', '$nHoraFin', $nTelefono,'$nNombreDepartamento'); END;";
+                        $plsql = "BEGIN FuncionesHospital.AnadirDoctor('$nNombre', $nTelefono', $nEspecialidad', TipoDiasSemana($diasString), '$nHoraInicio', '$nHoraFin','$nIdDepartamento'); END;";
                         $stmt = oci_parse($conn, $plsql);     
                         // Ejecutar la consulta
                         $flag1 = oci_execute($stmt);
