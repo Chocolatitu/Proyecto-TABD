@@ -43,8 +43,8 @@
         if($_POST)
         {
             // Configurar las variables de conexión
-            $db_user = 'blanca';
-            $db_pass = 'blanca1';
+            $db_user = 'hospital';
+            $db_pass = 'hospital';
             $db_conn_str = '(DESCRIPTION=(ADDRESS_LIST=(ADDRESS=(PROTOCOL=TCP)(HOST=localhost)(PORT=1521)))(CONNECT_DATA=(SERVICE_NAME=XEPDB1)))';
         
             // Establecer la conexión
@@ -59,12 +59,12 @@
                 // Preparar la consulta
                 $IdDepartamento = $_POST['nIdDepartamento'];
                 $Nombre = $_POST['nNombre'];
-                $Descripcion = $_POST['nDescripcion'];
                 $Planta = $_POST['nPlanta'];
+                $Descripcion = $_POST['nDescripcion'];
                            
                 try
                 {
-                    $plsql = "BEGIN FuncionesHospital.ModificarDepartamento('$IdDepartamento', '$Nombre', '$Descripcion', '$Planta'); END;";
+                    $plsql = "BEGIN PaqueteHospital.ModificarDepartamento('$IdDepartamento', '$Nombre', '$Planta', '$Descripcion'); END;";
                     $stmt = oci_parse($conn, $plsql);     
                     // Ejecutar la consulta
                     $flag1 = oci_execute($stmt);

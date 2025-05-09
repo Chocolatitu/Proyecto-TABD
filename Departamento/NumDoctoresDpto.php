@@ -43,8 +43,8 @@
         if($_POST)
         {
             // Configurar las variables de conexión
-            $db_user = 'blanca';
-            $db_pass = 'blanca1';
+            $db_user = 'hospital';
+            $db_pass = 'hospital';
             $db_conn_str = '(DESCRIPTION=(ADDRESS_LIST=(ADDRESS=(PROTOCOL=TCP)(HOST=localhost)(PORT=1521)))(CONNECT_DATA=(SERVICE_NAME=XEPDB1)))';
         
             // Establecer la conexión
@@ -61,7 +61,7 @@
                            
                 try
                 {
-                    $plsql = "BEGIN :nNumDoctoresDpto := FuncionesHospital.NumeroDoctoresDpto('$IdDpto'); END;";
+                    $plsql = "BEGIN :nNumDoctoresDpto := PaqueteHospital.NumeroDoctoresDpto('$IdDpto'); END;";
                     $stmt = oci_parse($conn, $plsql); 
                     
                     oci_bind_by_name($stmt, ':nNumDoctoresDpto', $NumDoctoresDpto, 100);  
