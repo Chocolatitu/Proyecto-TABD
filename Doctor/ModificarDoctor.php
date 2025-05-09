@@ -43,8 +43,8 @@
         if($_POST)
         {
             // Configurar las variables de conexión
-            $db_user = 'blanca';
-            $db_pass = 'blanca1';
+            $db_user = 'hospital';
+            $db_pass = 'hospital';
             $db_conn_str = '(DESCRIPTION=(ADDRESS_LIST=(ADDRESS=(PROTOCOL=TCP)(HOST=localhost)(PORT=1521)))(CONNECT_DATA=(SERVICE_NAME=XEPDB1)))';
         
             // Establecer la conexión
@@ -59,20 +59,20 @@
                 // Preparar la consulta
                 $IdDoctor = $_POST['nIdDoctor'];
                 $Nombre = $_POST['nNombre'];
+                $Telefono = $_POST['nTelefono'];
                 $Especialidad = $_POST['nEspecialidad'];
-                $nDias = isset($_POST['nDias']) ? $_POST['nDias'] : array();
                 $HoraInicio = $_POST['nHoraInicio'];
                 $HoraFin = $_POST['nHoraFin'];
-                $Telefono = $_POST['nTelefono'];
-                $NombreDepartamento = $_POST['nNombreDepartamento'];
+                $nDias = isset($_POST['nDias']) ? $_POST['nDias'] : array();
+                $NombreDepartamento = $_POST['nIdDepartamento'];
                 
                 $diasString = "'" . implode("','", $nDias) . "'";
                 try
                 {
                     if(empty($nDias))
-                    $plsql = "BEGIN FuncionesHospital.ModificarDoctor($IdDoctor, '$Nombre', '$Especialidad' , NULL , '$HoraInicio', '$HoraFin', '$Telefono', '$NombreDepartamento'); END;";
+                    $plsql = "BEGIN PaqueteHospital.ModificarDoctor($IdDoctor, '$Nombre', '$Telefono', '$Especialidad' ,  '$HoraInicio', '$HoraFin', NULL, '$IdDepartamento'); END;";
                     else
-                    $plsql = "BEGIN FuncionesHospital.ModificarDoctor($IdDoctor, '$Nombre', '$Especialidad' , TipoDiasSemana($diasString), '$HoraInicio', '$HoraFin', '$Telefono', '$NombreDepartamento'); END;";
+                    $plsql = "BEGIN PaqueteHospital.ModificarDoctor($IdDoctor, '$Nombre', '$Telefono', '$Especialidad' ,  '$HoraInicio', '$HoraFin', TipoDiasSemana($diasString), '$IdDepartamento'); END;";
                     $stmt = oci_parse($conn, $plsql);     
                     // Ejecutar la consulta
                     $flag1 = oci_execute($stmt);
