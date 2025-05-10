@@ -73,20 +73,22 @@
             <div class="Formulario_Grupo" id = "Grupo_Fechanacimiento">
                 <label for="nFechaNacimiento" class = "Formulario_Label">Fecha de nacimiento</label>
                 <div class = "Formulario_Grupo_Input">
-                    <input type="text" class = "Formulario_Input" name = "nFechaNacimiento" id = "nFechaNacimiento" placeholder="dd/mm/aaaa">
+                    <input type="text" class = "Formulario_Input" name = "nFechaNacimiento" id = "nFechaNacimiento" placeholder="DD-MM-AAAA">
                     <i class="Icono fa-solid fa-circle-xmark"></i>
                 </div>
                 <p class = "Error">Fecha de nacimiento no valida</p>
             </div>
 
             <!--Genero-->
-            <div class="Formulario_Grupo" id = "Grupo_Genero">
-                <label for="nGenero" class = "Formulario_Label">Genero</label>
-                <div class = "Formulario_Grupo_Input">
-                    <input type="text" class = "Formulario_Input" name = "nGenero" id = "nGenero" placeholder = "mujer(M)/hombre(H)">
-                    <i class="Icono fa-solid fa-circle-xmark"></i>
+            <div class="Formulario_Grupo" id="Grupo_sexo">
+                <label for="nSexo" class="Formulario_Label">Sexo</label>
+                <div class="Formulario_Grupo_Input">
+                    <select class="Formulario_Select" name="nGenero" id="nGenero">
+                        <option value="F">Mujer</option>
+                        <option value="M">Hombre</option>
+                    </select>
                 </div>
-                <p class = "Error">Genero no correcto</p>
+                <p class = "Error">Seleccione un género</p>
             </div>
             
             <div class="Formulario_Grupo" id = "Grupo_direccion">

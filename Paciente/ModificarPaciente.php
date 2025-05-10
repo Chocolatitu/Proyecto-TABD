@@ -71,9 +71,8 @@
                     if(empty($FechaNacimiento))
                     $plsql = "BEGIN PaqueteHospital.ModificarPaciente('$IdPaciente', '$Nombre', '$Telefono', '$FechaNacimiento' ,  '$Direccion', '$Genero'); END;";
                     else
-                    $plsql = "BEGIN FuncionesHospital.ModificarPaciente('$IdPaciente', '$Nombre', '$Telefono', TO_DATE('$FechaNacimiento', 'DD/MM/YYYY') , '$Direccion', '$Genero'); END;";
+                    $plsql = "BEGIN PaqueteHospital.ModificarPaciente('$IdPaciente', '$Nombre', '$Telefono', TO_DATE('$FechaNacimiento', 'DD-MM-YYYY') , '$Direccion', '$Genero'); END;";
                     
-                    echo("$FechaNacimiento");
                     $stmt = oci_parse($conn, $plsql);     
                     // Ejecutar la consulta
                     $flag1 = oci_execute($stmt);
