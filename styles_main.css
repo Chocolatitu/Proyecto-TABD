@@ -60,7 +60,8 @@ li a {
     
 /* Para el estilo del Cuerpo */
 body {
-    font-family: 'Arial'
+    font-family: 'Arial';
+    background-color: #466b8c;
 }
     
 /* Para la foto del Fondo del index */
@@ -72,10 +73,13 @@ body {
     padding: 1em; /* Espaciado interno dentro del cuadrado */
 }
 
-.resultado{
+.resultado {
+    background-color: #466b8c;
+    color: #fff;
     text-align: center;
     width: 100%;
 }
+
   
 /* Estilos para el formulario */
 .Formulario {
@@ -106,6 +110,7 @@ legend {
   
 .Formulario_Grupo_Input {
     position: relative;
+    color: #fff;
 }
 
 .Formulario_Grupo_Input2 {
@@ -140,10 +145,14 @@ legend {
     font-size: 12px; /* Tamaño de la letra */
     margin-bottom: 0; /* No tiene margen inferior */
     display: none; /* No visible */
+    color: #fff;
+    text-align: center;
 }
   
 .Error-activo {
     display: block; /* Visible */
+    color: #fff;
+    text-align: center;
 }
   
 .Icono {
@@ -171,6 +180,8 @@ legend {
   
 .Formulario_Mensaje-activo {
     display: block; /* Se muestra */
+    color: #fff;
+    text-align: center;
 }
   
 .Formulario_Grupo_Boton {
@@ -181,10 +192,14 @@ legend {
   
 .Exito {
     display: none; /*No se muestra */
+    color: #fff;
+    text-align: center;
 }
   
 .Exito-activo {
     display: block; /* Se muestra */
+    color: #fff;
+    text-align: center;
 }
   
 .Formulario_Boton {
@@ -198,6 +213,7 @@ legend {
     border-radius: 3px; /* Radio de los bordes del botón */
     cursor: pointer; /* Te señala que se puede pulsar */
     transition: .1s ease all;
+    border: 1px solid #fff;
 }
   
 .Formulario_Boton:hover {
