@@ -15,7 +15,7 @@
                 </svg>
             </button>
             
-            <h1 class>Hospital</h1>
+            <h1 class>Hospital Virgen del Camino</h1>
             <a href="../Main.html" >
                 <img src="../Logo.png" alt = "Logo" class = "Logo">
             </a>
