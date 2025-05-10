@@ -47,8 +47,18 @@
                 </div>
                 <p class = "Error">En el nombre solo se pueden introducir letras</p>
             </div>
+            
+                        <!--Teléfono-->
+                        <div class="Formulario_Grupo" id = "Grupo_Telefono">
+                            <label for="nTelefono" class = "Formulario_Label">Teléfono</label>
+                            <div class = "Formulario_Grupo_Input">
+                                <input type="number" class = "Formulario_Input" name = "nTelefono" id = "nTelefono" placeholder="639158929">
+                                <i class="Icono fa-solid fa-circle-xmark"></i>
+                            </div>
+                            <p class = "Error">Telefono no valido</p>
+                        </div>
 
-            <!--Correo Electrónico-->
+            <!--Fecha nacimiento-->
             <div class="Formulario_Grupo" id = "Grupo_Fechanacimiento">
                 <label for="nFechaNacimiento" class = "Formulario_Label">Fecha de nacimiento</label>
                 <div class = "Formulario_Grupo_Input">
@@ -57,36 +67,27 @@
                 </div>
                 <p class = "Error">Fecha nacimiento no valida</p>
             </div>
+            
+                        <!--Dirección-->
+                        <div class="Formulario_Grupo" id = "Grupo_dir">
+                            <label for="nDireccion" class = "Formulario_Label">Direccion</label>
+                            <div class = "Formulario_Grupo_Input">
+                                <input type="text" class = "Formulario_Input" name = "nDireccion" id = "nDireccion" placeholder = "C/Ejemplo">
+                                <i class="Icono fa-solid fa-circle-xmark"></i>
+                            </div>
+                            <p class = "Error">Direccion no valida</p>
+                        </div>
 
-            <!--Teléfono-->
-            <div class="Formulario_Grupo" id = "Grupo_Telefono">
-                <label for="nTelefono" class = "Formulario_Label">Teléfono</label>
-                <div class = "Formulario_Grupo_Input">
-                    <input type="number" class = "Formulario_Input" name = "nTelefono" id = "nTelefono" placeholder="639158929">
-                    <i class="Icono fa-solid fa-circle-xmark"></i>
-                </div>
-                <p class = "Error">Telefono no valido</p>
-            </div>
-
-            <!--Edad-->
+            <!--Género-->
             <div class="Formulario_Grupo" id="Grupo_sexo">
                 <label for="nSexo" class="Formulario_Label">Sexo</label>
                 <div class="Formulario_Grupo_Input">
-                    <select class="Formulario_Select" name="nSexo" id="nSexo">
-                        <option value="mujer">Mujer</option>
-                        <option value="hombre">Hombre</option>
+                    <select class="Formulario_Select" name="nGenero" id="nGenero">
+                        <option value="F">Mujer</option>
+                        <option value="M">Hombre</option>
                     </select>
                 </div>
-                <p class = "Error">Seleccione un sexo</p>
-            </div>
-
-            <div class="Formulario_Grupo" id = "Grupo_dir">
-                <label for="nDireccion" class = "Formulario_Label">Direccion</label>
-                <div class = "Formulario_Grupo_Input">
-                    <input type="text" class = "Formulario_Input" name = "nDireccion" id = "nDireccion" placeholder = "C/Ejemplo">
-                    <i class="Icono fa-solid fa-circle-xmark"></i>
-                </div>
-                <p class = "Error">Direccion no valida</p>
+                <p class = "Error">Seleccione un género</p>
             </div>
 
             <!--Mensaje-->

@@ -35,75 +35,95 @@
 
     </header>
 
-    <div class  = "Fondo">
-<?php
-        class OCIException extends \Exception {} //poder usar excepciones del tipo OCI
-        error_reporting(E_ERROR | E_PARSE);
-        
-        if($_POST)
-        {
-            // Configurar las variables de conexión
-            $db_user = 'hospital';
-            $db_pass = 'hospital';
-            $db_conn_str = '(DESCRIPTION=(ADDRESS_LIST=(ADDRESS=(PROTOCOL=TCP)(HOST=localhost)(PORT=1521)))(CONNECT_DATA=(SERVICE_NAME=XEPDB1)))';
-        
-            // Establecer la conexión
-            $conn = oci_connect($db_user, $db_pass, $db_conn_str);
-        
-            // Verificar si la conexión fue exitosa
-            if (!$conn) {
-                $err = oci_error();
-                trigger_error(htmlentities($err['message'], ENT_QUOTES), E_USER_ERROR);
-            }
-            else { //nNombre IN VARCHAR2, nLocalidad IN VARCHAR2, nUbicacion IN VARCHAR2
-                // Preparar la consulta
-                $IdDoctor = $_POST['nIdDoctor'];
-                $Nombre = $_POST['nNombre'];
-                $Telefono = $_POST['nTelefono'];
-                $Especialidad = $_POST['nEspecialidad'];
-                $HoraInicio = $_POST['nHoraInicio'];
-                $HoraFin = $_POST['nHoraFin'];
-                $nDias = isset($_POST['nDias']) ? $_POST['nDias'] : array();
-                $NombreDepartamento = $_POST['nIdDepartamento'];
-                
-                $diasString = "'" . implode("','", $nDias) . "'";
-                try
-                {
-                    if(empty($nDias))
-                    $plsql = "BEGIN PaqueteHospital.ModificarDoctor($IdDoctor, '$Nombre', '$Telefono', '$Especialidad' ,  '$HoraInicio', '$HoraFin', NULL, '$IdDepartamento'); END;";
-                    else
-                    $plsql = "BEGIN PaqueteHospital.ModificarDoctor($IdDoctor, '$Nombre', '$Telefono', '$Especialidad' ,  '$HoraInicio', '$HoraFin', TipoDiasSemana($diasString), '$IdDepartamento'); END;";
-                    $stmt = oci_parse($conn, $plsql);     
-                    // Ejecutar la consulta
-                    $flag1 = oci_execute($stmt);
+    <div class="Fondo">
+    <?php
+    class OCIException extends \Exception {}
+    error_reporting(E_ERROR | E_PARSE);
 
-                    if(!$flag1)
-                    {
-                        throw new OCIException('Ha ocurrido algún error',499);
-                    }        
-    
-                    $resultado = "<div id=\"Resultado\"><p> Se ha modificado el doctor correctamente </p></div>";
-                    echo $resultado;
-                }
-                catch(OCIException $e)
-                {
-                    if($e->getCode() === 499)
-                    {
-                        $resultado = "<div id=\"Resultado\"><p>Error: Ha ocurrido algun error </p></div>";
-                        echo $resultado;
-                    }
-                    else
-                    {
-                        $resultado = "<div id=\"Resultado\"><p>Error: No se ha podido realizar la acción</p></div>";
-                        echo $resultado;
-                    }
-                }
-                
-                // Liberar recursos
-                oci_free_statement($stmt);
-                oci_close($conn);
-            }
+    if($_POST) {
+        // Configuración de conexión
+        $db_user = 'hospital';
+        $db_pass = 'hospital';
+        $db_conn_str = '(DESCRIPTION=(ADDRESS_LIST=(ADDRESS=(PROTOCOL=TCP)(HOST=localhost)(PORT=1521)))(CONNECT_DATA=(SERVICE_NAME=XEPDB1)))';
+        
+        $conn = oci_connect($db_user, $db_pass, $db_conn_str);
+        
+        if (!$conn) {
+            $err = oci_error();
+            die("Error de conexión: " . htmlentities($err['message']));
         }
+
+        try {
+            // Recoger datos del formulario
+            $IdDoctor = $_POST['nIdDoctor'];
+            $Nombre = $_POST['nNombre'];
+            $Telefono = $_POST['nTelefono'];
+            $Especialidad = $_POST['nEspecialidad'];
+            $HoraInicio = $_POST['nHoraInicio'];
+            $HoraFin = $_POST['nHoraFin'];
+            $nDias = isset($_POST['nDias']) ? $_POST['nDias'] : array();
+            $IdDepartamento = $_POST['nIdDepartamento']; // Corregido el nombre de la variable
+            
+            // Preparar la llamada al procedimiento
+            if(empty($nDias)) {
+                $plsql = "BEGIN PaqueteHospital.ModificarDoctor(
+                            :IdDoctor, 
+                            :Nombre, 
+                            :Telefono, 
+                            :Especialidad, 
+                            :HoraInicio, 
+                            :HoraFin, 
+                            NULL, 
+                            :IdDepartamento
+                        ); END;";
+            } else {
+                // Construir array de días correctamente
+                $diasArray = "TipoDiaSemana(";
+                foreach($nDias as $dia) {
+                    $diasArray .= "'" . $dia . "',";
+                }
+                $diasArray = rtrim($diasArray, ",") . ")";
+                
+                $plsql = "BEGIN PaqueteHospital.ModificarDoctor(
+                            :IdDoctor, 
+                            :Nombre, 
+                            :Telefono, 
+                            :Especialidad, 
+                            :HoraInicio, 
+                            :HoraFin, 
+                            $diasArray, 
+                            :IdDepartamento
+                        ); END;";
+            }
+            
+            $stmt = oci_parse($conn, $plsql);
+            
+            // Bind de parámetros
+            oci_bind_by_name($stmt, ':IdDoctor', $IdDoctor);
+            oci_bind_by_name($stmt, ':Nombre', $Nombre);
+            oci_bind_by_name($stmt, ':Telefono', $Telefono);
+            oci_bind_by_name($stmt, ':Especialidad', $Especialidad);
+            oci_bind_by_name($stmt, ':HoraInicio', $HoraInicio);
+            oci_bind_by_name($stmt, ':HoraFin', $HoraFin);
+            oci_bind_by_name($stmt, ':IdDepartamento', $IdDepartamento);
+            
+            // Ejecutar
+            $flag = oci_execute($stmt);
+            
+            if(!$flag) {
+                $e = oci_error($stmt);
+                throw new OCIException($e['message'], $e['code']);
+            }
+            
+            echo "<div id=\"Resultado\"><p>Se ha modificado el doctor correctamente</p></div>";
+            
+        } catch(OCIException $e) {
+            echo "<div id=\"Resultado\"><p>Error: " . htmlentities($e->getMessage()) . "</p></div>";
+        } finally {
+            if(isset($stmt)) oci_free_statement($stmt);
+            if($conn) oci_close($conn);
+        }
+    }
     ?>
     </div>
 
