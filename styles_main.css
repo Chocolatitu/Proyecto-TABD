@@ -234,12 +234,12 @@ legend {
     
 .Contacto p {
     margin: 5px 0; /* Añadir un pequeño espacio entre los párrafos para mejorar la apariencia */
-    color: #fff; /* Cambiar el color del texto del enlace a negro */
+    color: #466b8c; /* Cambiar el color del texto del enlace a negro */
 }
     
 .Contacto a {
     text-decoration: none; /* Quitar la línea subrayada del enlace */
-    color: #fff; /* Cambiar el color del texto del enlace a negro */
+    color: #466b8c; /* Cambiar el color del texto del enlace a negro */
 }
 
 @media screen and (max-width: 600px){
