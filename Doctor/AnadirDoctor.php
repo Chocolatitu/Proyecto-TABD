@@ -56,7 +56,7 @@
                 trigger_error(htmlentities($err['message'], ENT_QUOTES), E_USER_ERROR);
             }
             else { 
-                // Preparar la consulta
+                // Obtener datos del formulario
                 $nNombre = $_POST['nNombre'];
                 $nTelefono = $_POST['nTelefono'];  
                 $nEspecialidad = $_POST['nEspecialidad'];
@@ -66,43 +66,58 @@
                 $nIdDepartamento = $_POST['nIdDepartamento'];   
                 
                 if (empty($nDias)) {
-                        $resultado = "<div id=\"Resultado\"><p>Error: Dias esta vacio</p></div>";
-                        echo $resultado;
+                    $resultado = "<div id=\"Resultado\"><p>Error: Debe seleccionar al menos un día de trabajo</p></div>";
+                    echo $resultado;
                 } else {
-                    // Convertir el array de días en una cadena en el formato requerido por la base de datos
-                    $diasString = "'" . implode("','", $nDias) . "'";
-                    try
-                    {
-                        $plsql = "BEGIN FuncionesHospital.AnadirDoctor('$nNombre', $nTelefono', $nEspecialidad', TipoDiasSemana($diasString), '$nHoraInicio', '$nHoraFin','$nIdDepartamento'); END;";
-                        $stmt = oci_parse($conn, $plsql);     
-                        // Ejecutar la consulta
-                        $flag1 = oci_execute($stmt);
+                    try {
+                        // Crear el array de días como una cadena para PL/SQL
+                        $diasArray = "TipoDiaSemana(";
+                        foreach($nDias as $dia) {
+                            $diasArray .= "'" . $dia . "',";
+                        }
+                        $diasArray = rtrim($diasArray, ",") . ")";
                         
-                        if(!$flag1)
-                        {
-                            throw new OCIException('Error de ejecución',499);
-                        }        
+                        // Preparar la llamada al procedimiento
+                        $plsql = "BEGIN PaqueteHospital.AnadirDoctor(
+                            :nNombre, 
+                            :nTelefono, 
+                            :nEspecialidad, 
+                            :nHoraInicio, 
+                            :nHoraFin, 
+                            $diasArray, 
+                            :nIdDepartamento
+                        ); END;";
                         
-                        $resultado = "<div id=\"Resultado\"><p> Se ha registrado el doctor correctamente </p></div>";
+                        $stmt = oci_parse($conn, $plsql);
+                        
+                        // Bind de parámetros
+                        oci_bind_by_name($stmt, ':nNombre', $nNombre);
+                        oci_bind_by_name($stmt, ':nTelefono', $nTelefono);
+                        oci_bind_by_name($stmt, ':nEspecialidad', $nEspecialidad);
+                        oci_bind_by_name($stmt, ':nHoraInicio', $nHoraInicio);
+                        oci_bind_by_name($stmt, ':nHoraFin', $nHoraFin);
+                        oci_bind_by_name($stmt, ':nIdDepartamento', $nIdDepartamento);
+                        
+                        // Ejecutar
+                        $flag = oci_execute($stmt);
+                        
+                        if(!$flag) {
+                            $e = oci_error($stmt);
+                            throw new OCIException($e['message'], $e['code']);
+                        }
+                        
+                        $resultado = "<div id=\"Resultado\"><p>Se ha registrado el doctor correctamente</p></div>";
                         echo $resultado;
-                    }
-                    catch(OCIException $e)
-                    {
-                        if($e->getCode() === 499)
-                        {
-                            $resultado = "<div id=\"Resultado\"><p>Error: Ha ocurrido algun error </p></div>";
-                            echo $resultado;
+                        
+                    } catch(OCIException $e) {
+                        $resultado = "<div id=\"Resultado\"><p>Error: " . htmlentities($e->getMessage()) . "</p></div>";
+                        echo $resultado;
+                    } finally {
+                        if(isset($stmt)) {
+                            oci_free_statement($stmt);
                         }
-                        else
-                        {
-                            $resultado = "<div id=\"Resultado\"><p>Error: No se ha podido realizar la acción</p></div>";
-                            echo $resultado;
-                        }
+                        oci_close($conn);
                     }
-                    
-                    // Liberar recursos
-                    oci_free_statement($stmt);
-                    oci_close($conn);
                 }
             }
         }
@@ -120,4 +135,3 @@
 
 </body>
 </html>
-

@@ -43,8 +43,8 @@
         if($_POST)
         {
             // Configurar las variables de conexión
-            $db_user = 'blanca';
-            $db_pass = 'blanca1';
+            $db_user = 'hospital';
+            $db_pass = 'hospital';
             $db_conn_str = '(DESCRIPTION=(ADDRESS_LIST=(ADDRESS=(PROTOCOL=TCP)(HOST=localhost)(PORT=1521)))(CONNECT_DATA=(SERVICE_NAME=XEPDB1)))';
         
             // Establecer la conexión
@@ -55,16 +55,16 @@
                 $err = oci_error();
                 trigger_error(htmlentities($err['message'], ENT_QUOTES), E_USER_ERROR);
             }
-            else { //nNombre IN VARCHAR2, nFechaNacimiento IN DATE, nSexo IN VARCHAR2, nDireccion IN VARCHAR2, nTelefono IN NUMBER
+            else { //nNombre IN VARCHAR2, nFechaNacimiento IN DATE, nGenero IN CHAR, nDireccion IN VARCHAR2, nTelefono IN NUMBER
                 // Preparar la consulta
                 $Nombre = $_POST['nNombre'];
                 $FechaNacimiento = $_POST['nFechaNacimiento'];
-                $Sexo = $_POST['nSexo'];
+                $Genero = $_POST['nGenero'];
                 $Direccion = $_POST['nDireccion'];
                 $Telefono = $_POST['nTelefono'];
                 try
                 {
-                    $plsql = "BEGIN FuncionesHospital.AnadirPaciente('$Nombre',TO_DATE('$FechaNacimiento', 'DD/MM/YYYY'), '$Sexo', '$Direccion', $Telefono); END;";
+                    $plsql = "BEGIN PaqueteHospital.AnadirPaciente('$Nombre', $Telefono, TO_DATE('$FechaNacimiento', 'DD/MM/YYYY'), '$Direccion', '$Genero'); END;";
                     $stmt = oci_parse($conn, $plsql);     
                     // Ejecutar la consulta
                     $flag1 = oci_execute($stmt);

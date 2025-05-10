@@ -73,7 +73,7 @@
                         throw new OCIException('Ha ocurrido algún error',499);
                     }        
     
-                    $resultado = "<div id=\"Resultado\"><p> El numero de doctores en este departamento son: $NumCitasDoctor </p></div>";
+                    $resultado = "<div id=\"Resultado\"><p> El numero de citas de este doctor para esa fecha son: $NumCitasDoctor </p></div>";
                     echo $resultado;
                 }
                 catch(OCIException $e)
