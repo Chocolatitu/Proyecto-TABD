@@ -43,8 +43,8 @@
         if($_POST)
         {
             // Configurar las variables de conexión
-            $db_user = 'blanca';
-            $db_pass = 'blanca1';
+            $db_user = 'hospital';
+            $db_pass = 'hospital';
             $db_conn_str = '(DESCRIPTION=(ADDRESS_LIST=(ADDRESS=(PROTOCOL=TCP)(HOST=localhost)(PORT=1521)))(CONNECT_DATA=(SERVICE_NAME=XEPDB1)))';
         
             // Establecer la conexión
@@ -59,17 +59,19 @@
                 // Preparar la consulta
                 $IdPaciente = $_POST['nIdPaciente'];
                 $Nombre = $_POST['nNombre'];
-                $FechaNacimiento = $_POST['nFechaNacimiento'];
-                $Sexo = $_POST['nSexo'];
-                $Direccion = $_POST['nDireccion'];
                 $Telefono = $_POST['nTelefono'];
+                $FechaNacimiento = $_POST['nFechaNacimiento'];
+                $Direccion = $_POST['nDireccion'];
+                $Genero = $_POST['nGenero'];
+                
+                
                            
                 try
                 {
                     if(empty($FechaNacimiento))
-                    $plsql = "BEGIN FuncionesHospital.ModificarPaciente('$IdPaciente', '$Nombre', '$FechaNacimiento' , '$Sexo', '$Direccion', '$Telefono'); END;";
+                    $plsql = "BEGIN PaqueteHospital.ModificarPaciente('$IdPaciente', '$Nombre', '$Telefono', '$FechaNacimiento' ,  '$Direccion', '$Genero'); END;";
                     else
-                    $plsql = "BEGIN FuncionesHospital.ModificarPaciente('$IdPaciente', '$Nombre', TO_DATE('$FechaNacimiento', 'DD/MM/YYYY') , '$Sexo', '$Direccion', '$Telefono'); END;";
+                    $plsql = "BEGIN FuncionesHospital.ModificarPaciente('$IdPaciente', '$Nombre', '$Telefono', TO_DATE('$FechaNacimiento', 'DD/MM/YYYY') , '$Direccion', '$Genero'); END;";
                     
                     echo("$FechaNacimiento");
                     $stmt = oci_parse($conn, $plsql);     
