@@ -73,7 +73,7 @@
                         throw new OCIException('Ha ocurrido algún error',499);
                     }        
     
-                    $resultado = "<div id=\"Resultado\"><p> Se ha modificado el Valoracion correctamente </p></div>";
+                    $resultado = "<div id=\"Resultado\"><p> Se ha modificado la valoración correctamente </p></div>";
                     echo $resultado;
                 }
                 catch(OCIException $e)

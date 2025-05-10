@@ -93,21 +93,31 @@
                 <label for="nNombreDepartamento" class="Formulario_Label">Departamento</label>
                 <div class="Formulario_Grupo_Input">
                     <select class="Formulario_Select" name="nNombreDepartamento" id="nNombreDepartamento">
-                        <option value="cardiologia">Cardiología</option>
+                        <option value="psiquiatria">Psiquiatría</option>
                         <option value="pediatria">Pediatría</option>
                         <option value="dermatologia">Dermatología</option>
                         <option value="traumatologia">Traumatología</option>
-                        <option value="oftalmologia">Oftalmología</option>
-                        <option value="estomatologia">Estomatología</option>
-                        <option value="ginecologia">Ginecología</option>
                         <option value="otorrinolaringologia">Otorrinolaringología</option>
                         <option value="neurologia">Neurología</option>
-                        <option value="psiquiatria">Psiquiatría</option>
-                        <option value="guardia">Guardia</option>
+                        <option value="cardiologia">Cardiología</option>
+                        <option value="administracion">Admnistración</option>
+                        <option value="oftalmologia">Oftalmología</option>
+                        <option value="ginecologia">Ginecología</option>
                     </select>
                 </div>
                 <p class="Error">Selecciona un departamento</p>
             </div>
+
+            <div class="Formulario_Grupo" id="Grupo_doctor">
+                <label for="nIdDoctor" class="Formulario_Label">Doctor</label>
+                <div class="Formulario_Grupo_Input">
+                    <select class="Formulario_Select" name="nIdDoctor" id="nIdDoctor" required disabled>
+                        <option value="">Seleccione una especialidad primero</option>
+                    </select>
+                </div>
+                <p class="Error">Selecciona un doctor</p>
+            </div>
+            
 
             <!--Mensaje-->
             <div class = "Formulario_Mensaje" id = "Formulario_Mensaje">
@@ -131,6 +141,51 @@
         </div>
     </footer>
 
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            // Asignar el evento al select de especialidad
+            document.getElementById('nNombreDepartamento').addEventListener('change', function() {
+                let especialidad = this.value;
+                let doctorSelect = document.getElementById('nIdDoctor');
+                
+                if (especialidad) {
+                    // Mostrar estado de carga
+                    doctorSelect.disabled = true;
+                    doctorSelect.innerHTML = '<option value="">Cargando doctores...</option>';
+                    
+                    fetch('obtenerDoctores.php?especialidad=' + encodeURIComponent(especialidad))
+                        .then(response => {
+                            if (!response.ok) throw new Error('Error en la respuesta');
+                            return response.json();
+                        })
+                        .then(data => {
+                            if (data.length === 0) {
+                                doctorSelect.innerHTML = '<option value="">No hay doctores disponibles en esta especialidad</option>';
+                            } else {
+                                doctorSelect.innerHTML = '<option value="">Seleccione un doctor</option>';
+                                
+                                data.forEach(doctor => {
+                                    let option = new Option(
+                                        doctor.Nombre + ' (' + doctor.HoraInicio + ':00-' + doctor.HoraFin + ':00)',
+                                        doctor.IdDoctor
+                                    );
+                                    doctorSelect.add(option);
+                                });
+                            }
+                            doctorSelect.disabled = data.length === 0;
+                        })
+                        .catch(error => {
+                            console.error('Error:', error);
+                            doctorSelect.innerHTML = '<option value="">Error al cargar doctores</option>';
+                            doctorSelect.disabled = true;
+                        });
+                } else {
+                    doctorSelect.innerHTML = '<option value="">Seleccione una especialidad primero</option>';
+                    doctorSelect.disabled = true;
+                }
+            });
+        });
+    </script>
 
 </body>
 </html>

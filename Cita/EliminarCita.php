@@ -55,12 +55,12 @@
                 $err = oci_error();
                 trigger_error(htmlentities($err['message'], ENT_QUOTES), E_USER_ERROR);
             }
-            else { //nNombre IN VARCHAR2, nLocalidad IN VARCHAR2, nUbicacion IN VARCHAR2
+            else {
                 // Preparar la consulta
                 $IdCita = $_POST['nIdCita'];           
                 try
                 {
-                    $plsql = "BEGIN PaqueteHospital.EliminarValoracion('$IdCita'); END;";
+                    $plsql = "BEGIN PaqueteHospital.EliminarCita('$IdCita'); END;";
                     $stmt = oci_parse($conn, $plsql);     
                     // Ejecutar la consulta
                     $flag1 = oci_execute($stmt);

@@ -23,7 +23,7 @@
             <a href="../Main.html" >
                 <img src="../Logo.png" alt = "Logo" class = "Logo">
             </a>
-            <h2 class>Elimnar Paciente</h2>
+            <h2 class>Eliminar Paciente</h2>
         </div>
 
         <nav class = "nav1">

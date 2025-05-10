@@ -73,7 +73,7 @@
                     $row = oci_fetch_array($stmt, OCI_ASSOC+OCI_RETURN_NULLS);
                     
                     if($row)
-                    echo "Fecha cita: " . $row['FECHA'] . ", Hora Cita: " . $row['HORA'] . ", Motivo Cita: " . $row['MOTIVO'] . "<br>";
+                    echo "Fecha cita: " . $row['FECHA'] . "<br> Hora Cita: " . $row['HORA'] . "<br> Motivo Cita: " . $row['MOTIVO'] . "<br>";
                     else
                         echo 'ERROR';
 

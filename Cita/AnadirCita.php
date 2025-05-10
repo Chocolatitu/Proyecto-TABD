@@ -62,11 +62,11 @@
                 $Hora = $_POST['nHora'];  
                 $Motivo = $_POST['nMotivo'];
                 $Consulta = $_POST['nConsulta'];
-                $NombreDepartamento = $_POST['nNombreDepartamento'];
+                $IdDoctor = $_POST['nIdDoctor'];
 
                 try
                 {
-                    $plsql = "BEGIN PaqueteHospital.AnadirCita(TO_DATE('$Fecha', 'DD/MM/YYYY'), '$Hora' ,'$Motivo', $Consulta, '$IdPaciente','$NombreDepartamento'); END;";
+                    $plsql = "BEGIN PaqueteHospital.AnadirCita(TO_DATE('$Fecha', 'DD/MM/YYYY'), '$Hora' ,'$Motivo', $Consulta, '$IdPaciente','$IdDoctor'); END;";
                     $stmt = oci_parse($conn, $plsql);     
                     // Ejecutar la consulta
                     $flag1 = oci_execute($stmt);
