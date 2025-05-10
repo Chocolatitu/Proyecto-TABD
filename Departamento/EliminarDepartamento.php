@@ -6,7 +6,7 @@
     <meta name="author" content="Paula Venegas Roldán & Marco José Miranda Bahamonde">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>Hospital</title>
+    <title>Hospital Virgen del Camino</title>
 
     <link rel="stylesheet" href="../styles_main.css">
 </head>
