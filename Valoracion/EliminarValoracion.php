@@ -23,12 +23,12 @@
             <a href="../Main.html" >
                 <img src="../Logo.png" alt = "Logo" class = "Logo">
             </a>
-            <h2 class>Modificar Diagnostico</h2>
+            <h2 class>Eliminar Valoracion</h2>
         </div>
 
         <nav class = "nav1">
             <ul class = "nav1_ul1">
-                <li class="li"><a href="Diagnostico.html" class="a">Volver Diagnostico</a></li>
+                <li class="li"><a href="Valoracion.html" class="a">Volver Valoracion</a></li>
                 <li class="li"><a href="../Main.html" class="a">Volver al Menu</a></li>
             </ul>
         </nav>
@@ -43,8 +43,8 @@
         if($_POST)
         {
             // Configurar las variables de conexión
-            $db_user = 'blanca';
-            $db_pass = 'blanca1';
+            $db_user = 'hospital';
+            $db_pass = 'hospital';
             $db_conn_str = '(DESCRIPTION=(ADDRESS_LIST=(ADDRESS=(PROTOCOL=TCP)(HOST=localhost)(PORT=1521)))(CONNECT_DATA=(SERVICE_NAME=XEPDB1)))';
         
             // Establecer la conexión
@@ -57,23 +57,20 @@
             }
             else { //nNombre IN VARCHAR2, nLocalidad IN VARCHAR2, nUbicacion IN VARCHAR2
                 // Preparar la consulta
-                $IdDiagnostico = $_POST['nIdDiagnostico'];
-                $Tratamiento = $_POST['nTratamiento'];
-                $Observaciones = $_POST['nObservaciones'];
-                           
+                $IdValoracion = $_POST['nIdValoracion'];           
                 try
                 {
-                    $plsql = "BEGIN FuncionesHospital.ModificarDiagnostico('$IdDiagnostico', '$Tratamiento', '$Observaciones'); END;";
+                    $plsql = "BEGIN PaqueteHospital.EliminarValoracion('$IdValoracion'); END;";
                     $stmt = oci_parse($conn, $plsql);     
                     // Ejecutar la consulta
                     $flag1 = oci_execute($stmt);
 
                     if(!$flag1)
                     {
-                        throw new OCIException('Ha ocurrido algún error',499);
+                        throw new OCIException('Ha ocurrido algun error',499);
                     }        
     
-                    $resultado = "<div id=\"Resultado\"><p> Se ha modificado el diagnostico correctamente </p></div>";
+                    $resultado = "<div id=\"Resultado\"><p> Se ha eliminado el Valoracion correctamente </p></div>";
                     echo $resultado;
                 }
                 catch(OCIException $e)
@@ -106,6 +103,6 @@
             <p>Hospital</p>
         </div>
     </footer>
-    
+
 </body>
 </html>

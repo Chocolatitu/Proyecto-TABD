@@ -23,12 +23,12 @@
             <a href="../Main.html" >
                 <img src="../Logo.png" alt = "Logo" class = "Logo">
             </a>
-            <h2 class>Eliminar Diagnostico</h2>
+            <h2 class>Modificar Valoracion</h2>
         </div>
 
         <nav class = "nav1">
             <ul class = "nav1_ul1">
-                <li class="li"><a href="Diagnostico.html" class="a">Volver Diagnostico</a></li>
+                <li class="li"><a href="Valoracion.html" class="a">Volver Valoracion</a></li>
                 <li class="li"><a href="../Main.html" class="a">Volver al Menu</a></li>
             </ul>
         </nav>
@@ -36,15 +36,37 @@
     </header>
 
     <div class="Fondo">
-        <form class = "Formulario" id = "Formulario" method="POST" action="EliminarDiagnostico.php">
+        <form class = "Formulario" id = "Formulario" method="POST" action="ModificarValoracion.php">
+
             <!--ID-->
             <div class="Formulario_Grupo" id = "Grupo_id">
-                <label for="nIdDiagnostico" class = "Formulario_Label">ID diagnostico</label>
+                <label for="nIdValoracion" class = "Formulario_Label">ID Valoracion</label>
                 <div class = "Formulario_Grupo_Input">
-                    <input type="text" class = "Formulario_Input" name = "nIdDiagnostico" id = "nIdDiagnostico" placeholder="1">
+                    <input type="text" class = "Formulario_Input" name = "nIdValoracion" id = "nIdValoracion" placeholder="1">
                     <i class="Icono fa-solid fa-times-circle"></i>
                 </div>
                 <p class = "Error">La Id es incorrecta</p>
+            </div>
+
+
+            <!--Tratamiento-->
+            <div class="Formulario_Grupo" id = "Grupo_trat">
+                <label for="nTratamiento" class = "Formulario_Label">Tratamiento</label>
+                <div class = "Formulario_Grupo_Input">
+                    <input type="text" class = "Formulario_Input" name = "nTratamiento" id = "nTratamiento" placeholder="Descripcion">
+                    <i class="Icono fa-solid fa-times-circle"></i>
+                </div>
+                <p class = "Error">Datos no validos</p>
+            </div>
+
+            <!--Observaciones-->
+            <div class="Formulario_Grupo" id = "Grupo_obs">
+                <label for="nObservaciones" class = "Formulario_Label">Observaciones</label>
+                <div class = "Formulario_Grupo_Input">
+                    <input type="text" class = "Formulario_Input" name = "nObservaciones" id = "nObservaciones" placeholder="Observaciones">
+                    <i class="Icono fa-solid fa-circle-xmark"></i>
+                </div>
+                <p class = "Error">Datos no validos</p>
             </div>
 
             <!--Mensaje-->
@@ -54,8 +76,8 @@
 
             <!--Botón-->
             <div class="Formulario_Grupo_Boton">
-                <button type = "submit" class = "Formulario_Boton">Eliminar Diagnostico</button>
-                <p class = "Exito" id = "Exito">Se ha eliminado el diagnostico correctamente</p>
+                <button type = "submit" class = "Formulario_Boton">Añadir Valoracion</button>
+                <p class = "Exito" id = "Exito">Se ha modificado el Valoracion correctamente</p>
             </div>
         </form>
     </div>

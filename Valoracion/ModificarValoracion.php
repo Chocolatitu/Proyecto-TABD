@@ -23,28 +23,28 @@
             <a href="../Main.html" >
                 <img src="../Logo.png" alt = "Logo" class = "Logo">
             </a>
-            <h2 class>Añadir Diagnostico</h2>
+            <h2 class>Modificar Valoracion</h2>
         </div>
 
         <nav class = "nav1">
             <ul class = "nav1_ul1">
-                <li class="li"><a href="Diagnostico.html" class="a">Volver Diagnostico</a></li>
+                <li class="li"><a href="Valoracion.html" class="a">Volver Valoracion</a></li>
                 <li class="li"><a href="../Main.html" class="a">Volver al Menu</a></li>
             </ul>
         </nav>
 
     </header>
-    
+
     <div class  = "Fondo">
-        <?php
+<?php
         class OCIException extends \Exception {} //poder usar excepciones del tipo OCI
         error_reporting(E_ERROR | E_PARSE);
         
         if($_POST)
         {
             // Configurar las variables de conexión
-            $db_user = 'blanca';
-            $db_pass = 'blanca1';
+            $db_user = 'hospital';
+            $db_pass = 'hospital';
             $db_conn_str = '(DESCRIPTION=(ADDRESS_LIST=(ADDRESS=(PROTOCOL=TCP)(HOST=localhost)(PORT=1521)))(CONNECT_DATA=(SERVICE_NAME=XEPDB1)))';
         
             // Establecer la conexión
@@ -55,24 +55,25 @@
                 $err = oci_error();
                 trigger_error(htmlentities($err['message'], ENT_QUOTES), E_USER_ERROR);
             }
-            else { //nTratamiento IN VARCHAR2, nObservaciones IN VARCHAR2, nIdCita IN NUMBER
+            else { //nNombre IN VARCHAR2, nLocalidad IN VARCHAR2, nUbicacion IN VARCHAR2
                 // Preparar la consulta
+                $IdValoracion = $_POST['nIdValoracion'];
                 $Tratamiento = $_POST['nTratamiento'];
                 $Observaciones = $_POST['nObservaciones'];
-                $IdCita = $_POST['nIdCita'];               
+                           
                 try
                 {
-                    $plsql = "BEGIN FuncionesHospital.AnadirDiagnostico('$Tratamiento','$Observaciones', $IdCita); END;";
+                    $plsql = "BEGIN PaqueteHospital.ModificarValoracion('$IdValoracion', '$Tratamiento', '$Observaciones'); END;";
                     $stmt = oci_parse($conn, $plsql);     
                     // Ejecutar la consulta
                     $flag1 = oci_execute($stmt);
 
                     if(!$flag1)
                     {
-                        throw new OCIException('Ha ocurrido algun error',499);
+                        throw new OCIException('Ha ocurrido algún error',499);
                     }        
     
-                    $resultado = "<div id=\"Resultado\"><p> Se ha registrado el diagnostico correctamente </p></div>";
+                    $resultado = "<div id=\"Resultado\"><p> Se ha modificado el Valoracion correctamente </p></div>";
                     echo $resultado;
                 }
                 catch(OCIException $e)
@@ -99,14 +100,12 @@
 
     <footer>
         <div class = "Contacto">
-            <a href="Main.html" >
-                <img src="/Logo.png" alt = "Logo" class = "Logo">
+            <a href="../Main.html" >
+                <img src="../Logo.png" alt = "Logo" class = "Logo">
             </a>
             <p>Hospital</p>
         </div>
     </footer>
-
-<script src = "../Boton_Hamburgesa.js"></script>
+    
 </body>
 </html>
-

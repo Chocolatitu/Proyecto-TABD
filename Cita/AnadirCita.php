@@ -43,8 +43,8 @@
         if($_POST)
         {
             // Configurar las variables de conexión
-            $db_user = 'blanca';
-            $db_pass = 'blanca1';
+            $db_user = 'hospital';
+            $db_pass = 'hospital';
             $db_conn_str = '(DESCRIPTION=(ADDRESS_LIST=(ADDRESS=(PROTOCOL=TCP)(HOST=localhost)(PORT=1521)))(CONNECT_DATA=(SERVICE_NAME=XEPDB1)))';
         
             // Establecer la conexión
@@ -61,11 +61,12 @@
                 $Fecha = $_POST['nFecha'];
                 $Hora = $_POST['nHora'];  
                 $Motivo = $_POST['nMotivo'];
+                $Consulta = $_POST['nConsulta'];
                 $NombreDepartamento = $_POST['nNombreDepartamento'];
 
                 try
                 {
-                    $plsql = "BEGIN FuncionesHospital.AnadirCita('$IdPaciente',TO_DATE('$Fecha', 'DD/MM/YYYY'), '$Hora' ,'$Motivo', '$NombreDepartamento'); END;";
+                    $plsql = "BEGIN PaqueteHospital.AnadirCita(TO_DATE('$Fecha', 'DD/MM/YYYY'), '$Hora' ,'$Motivo', $Consulta, '$IdPaciente','$NombreDepartamento'); END;";
                     $stmt = oci_parse($conn, $plsql);     
                     // Ejecutar la consulta
                     $flag1 = oci_execute($stmt);
