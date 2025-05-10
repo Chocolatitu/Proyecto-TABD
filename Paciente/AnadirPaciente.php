@@ -2,12 +2,8 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <meta name="description" content="Es una página web dedicada a la gestion de datos de un Hospital">
-    <meta name="author" content="Paula Venegas Roldán & Marco José Miranda Bahamonde">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <title>Hospital</title>
-
+    <title>Hospital - Añadir Paciente</title>
     <link rel="stylesheet" href="../styles_main.css">
 </head>
 <body>
@@ -35,67 +31,91 @@
 
     </header>
 
-    <div class  = "Fondo">
+    <div class="Fondo">
     <?php
-        class OCIException extends \Exception {} //poder usar excepciones del tipo OCI
-        error_reporting(E_ERROR | E_PARSE);
-        
-        if($_POST)
-        {
-            // Configurar las variables de conexión
-            $db_user = 'hospital';
-            $db_pass = 'hospital';
-            $db_conn_str = '(DESCRIPTION=(ADDRESS_LIST=(ADDRESS=(PROTOCOL=TCP)(HOST=localhost)(PORT=1521)))(CONNECT_DATA=(SERVICE_NAME=XEPDB1)))';
-        
-            // Establecer la conexión
-            $conn = oci_connect($db_user, $db_pass, $db_conn_str);
-        
-            // Verificar si la conexión fue exitosa
-            if (!$conn) {
-                $err = oci_error();
-                trigger_error(htmlentities($err['message'], ENT_QUOTES), E_USER_ERROR);
-            }
-            else { //nNombre IN VARCHAR2, nFechaNacimiento IN DATE, nGenero IN CHAR, nDireccion IN VARCHAR2, nTelefono IN NUMBER
-                // Preparar la consulta
-                $Nombre = $_POST['nNombre'];
-                $FechaNacimiento = $_POST['nFechaNacimiento'];
-                $Genero = $_POST['nGenero'];
-                $Direccion = $_POST['nDireccion'];
-                $Telefono = $_POST['nTelefono'];
-                try
-                {
-                    $plsql = "BEGIN PaqueteHospital.AnadirPaciente('$Nombre', $Telefono, TO_DATE('$FechaNacimiento', 'DD/MM/YYYY'), '$Direccion', '$Genero'); END;";
-                    $stmt = oci_parse($conn, $plsql);     
-                    // Ejecutar la consulta
-                    $flag1 = oci_execute($stmt);
-
-                    if(!$flag1)
-                    {
-                        throw new OCIException('Ha ocurrido algun error',499);
-                    }        
+    class OCIException extends \Exception {}
+    error_reporting(E_ERROR | E_PARSE);
     
-                    $resultado = "<div id=\"Resultado\"><p> Se ha registrado el paciente correctamente </p></div>";
-                    echo $resultado;
-                }
-                catch(OCIException $e)
-                {
-                    if($e->getCode() === 499)
-                    {
-                        $resultado = "<div id=\"Resultado\"><p>Error: Ha ocurrido algun error </p></div>";
-                        echo $resultado;
-                    }
-                    else
-                    {
-                        $resultado = "<div id=\"Resultado\"><p>Error: No se ha podido realizar la acción</p></div>";
-                        echo $resultado;
-                    }
-                }
-                
-                // Liberar recursos
-                oci_free_statement($stmt);
-                oci_close($conn);
+    if($_POST) {
+        // Configuración de conexión
+        $db_user = 'hospital';
+        $db_pass = 'hospital';
+        $db_conn_str = '(DESCRIPTION=(ADDRESS_LIST=(ADDRESS=(PROTOCOL=TCP)(HOST=localhost)(PORT=1521)))(CONNECT_DATA=(SERVICE_NAME=XEPDB1)))';
+        
+        try {
+            // Establecer conexión
+            $conn = oci_connect($db_user, $db_pass, $db_conn_str);
+            if (!$conn) {
+                throw new Exception("Error de conexión: " . oci_error()['message']);
             }
+            
+            // Recoger y validar datos
+            $Nombre = trim($_POST['nNombre']);
+            $Telefono = trim($_POST['nTelefono']);
+            $FechaNacimiento = trim($_POST['nFechaNacimiento']);
+            $Direccion = trim($_POST['nDireccion']);
+            $Genero = trim($_POST['nGenero']);
+            
+            // Validaciones
+            if(empty($Nombre)) throw new Exception("El nombre es requerido");
+            if(strlen($Nombre) > 100) throw new Exception("Nombre demasiado largo (máx. 100 caracteres)");
+            
+            if(empty($Telefono)) throw new Exception("El teléfono es requerido");
+            if(!preg_match('/^\d{9}$/', $Telefono)) throw new Exception("Teléfono debe tener 9 dígitos");
+            
+            if(empty($FechaNacimiento)) throw new Exception("La fecha de nacimiento es requerida");
+            if(!preg_match('/^\d{2}-\d{2}-\d{4}$/', $FechaNacimiento)) {
+                throw new Exception("Formato de fecha inválido. Use DD-MM-AAAA");
+            }
+            
+            // Verificar fecha válida
+            $partesFecha = explode('-', $FechaNacimiento);
+            if(!checkdate($partesFecha[1], $partesFecha[0], $partesFecha[2])) {
+                throw new Exception("Fecha de nacimiento no válida");
+            }
+            
+            if(empty($Direccion)) throw new Exception("La dirección es requerida");
+            if(strlen($Direccion) > 255) throw new Exception("Dirección demasiado larga (máx. 255 caracteres)");
+            
+            if(empty($Genero) || !in_array($Genero, ['M', 'F'])) {
+                throw new Exception("Género no válido");
+            }
+            
+            // Preparar la llamada al procedimiento
+            $plsql = "BEGIN 
+                        PaqueteHospital.AnadirPaciente(
+                            :nombre, 
+                            :telefono, 
+                            TO_DATE(:fecha_nac, 'DD-MM-YYYY'), 
+                            :direccion, 
+                            :genero
+                        ); 
+                      END;";
+            
+            $stmt = oci_parse($conn, $plsql);
+            
+            // Bind de parámetros con tamaños adecuados
+            oci_bind_by_name($stmt, ':nombre', $Nombre, 100);
+            oci_bind_by_name($stmt, ':telefono', $Telefono);
+            oci_bind_by_name($stmt, ':fecha_nac', $FechaNacimiento);
+            oci_bind_by_name($stmt, ':direccion', $Direccion, 255);
+            oci_bind_by_name($stmt, ':genero', $Genero, 1);
+            
+            // Ejecutar
+            if(!oci_execute($stmt)) {
+                $e = oci_error($stmt);
+                throw new Exception("Error Oracle: " . $e['message']);
+            }
+            
+            echo "<div class='exito'>Paciente añadido correctamente</div>";
+            
+        } catch(Exception $e) {
+            echo "<div class='error'>Error: " . htmlspecialchars($e->getMessage()) . "</div>";
+        } finally {
+            if(isset($stmt)) oci_free_statement($stmt);
+            if($conn) oci_close($conn);
         }
+    }
     ?>
     </div>
 
@@ -110,4 +130,3 @@
 
 </body>
 </html>
-
